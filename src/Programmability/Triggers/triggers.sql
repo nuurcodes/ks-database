@@ -56,5 +56,3 @@ create trigger on_auth_user_updated
     on auth.users
     for each row
 execute procedure public.handle_update_user();
-
-
