@@ -142,11 +142,11 @@ create policy "Enable insert for company admins"
 alter table public.company_user
     enable row level security;
 
-create policy "Enable select for company staff"
+create policy "Enable select for authenticated users"
     on public.company_user
-    for select using (true);
+    for select using ( auth.role() = 'authenticated' );
 
--- TODO: ADD POLICY TO ONLY SELECT COMPANY_USER IN THE INVOKERS COMPANY
+-- TODO: UPDATE POLICY TO ONLY SELECT COMPANY_USER IN THE INVOKERS COMPANY
 
 --------------------------------------------------------------------------------------
 
@@ -156,15 +156,34 @@ alter table public.personal_inventory
 
 create policy "Enable select for self"
     on public.personal_inventory
-    for select using (auth.uid() == user_id);
+    for select using (auth.uid() = user_id);
 
 create policy "Enable insert for self"
     on public.personal_inventory
-    for insert with check (auth.uid() == user_id);
+    for insert with check (auth.uid() = user_id);
 
 create policy "Enable delete for self"
     on public.personal_inventory
-    for delete using (auth.uid() == user_id);
+    for delete using (auth.uid() = user_id);
+
+--------------------------------------------------------------------------------------
+
+-- PERSONAL INVENTORY ITEM
+
+alter table public.personal_inventory_item
+    enable row level security;
+
+create policy "Enable select for self"
+    on public.personal_inventory_item
+    for select using (auth.uid() = user_id);
+
+create policy "Enable insert for self"
+    on public.personal_inventory_item
+    for insert with check (auth.uid() = user_id);
+
+create policy "Enable delete for self"
+    on public.personal_inventory_item
+    for delete using (auth.uid() = user_id);
 
 --------------------------------------------------------------------------------------
 
@@ -174,7 +193,7 @@ alter table public.personal_subscription
 
 create policy "Enable select self"
     on public.personal_subscription
-    for select using (auth.uid() == user_id);
+    for select using (auth.uid() = user_id);
 
 --------------------------------------------------------------------------------------
 
@@ -184,11 +203,11 @@ alter table public.personal_usage
 
 create policy "Enable select for self"
     on public.personal_usage
-    for select using (auth.uid() == user_id);
+    for select using (auth.uid() = user_id);
 
 create policy "Enable insert for self"
     on public.personal_usage
-    for insert with check (auth.uid() == user_id);
+    for insert with check (auth.uid() = user_id);
 
 --------------------------------------------------------------------------------------
 
@@ -198,7 +217,7 @@ alter table public.personal_user
 
 create policy "Enable select for company staff"
     on public.personal_user
-    for select using (auth.uid() == id);
+    for select using (auth.uid() = id);
 
 --------------------------------------------------------------------------------------
 
@@ -208,16 +227,30 @@ alter table public.product_barcode
 
 create policy "Enable select for authenticated users"
     on public.product_barcode
-    for select using (auth.role() == 'authenticated');
+    for select using (auth.role() = 'authenticated');
 
 create policy "Enable insert for authenticated users"
     on public.product_barcode
-    for insert with check (auth.role() == 'authenticated');
+    for insert with check (auth.role() = 'authenticated');
+
+--------------------------------------------------------------------------------------
+
+-- PRODUCT SKU
+alter table public.product_sku
+    enable row level security;
+
+create policy "Enable select for authenticated users"
+    on public.product_sku
+    for select using (auth.role() = 'authenticated');
+
+create policy "Enable insert for authenticated users"
+    on public.product_sku
+    for insert with check (auth.role() = 'authenticated');
 
 --------------------------------------------------------------------------------------
 
 -- PRODUCT SOURCE
-alter table public.product_sku
+alter table public.product_source
     enable row level security;
 
 --------------------------------------------------------------------------------------

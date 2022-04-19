@@ -145,7 +145,7 @@ create table public.personal_inventory
     created_at timestamptz not null default now(),
     nano_id    varchar     not null,
 
-    constraint fk_personal_user foreign key (user_id) references public.company_user (id),
+    constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (batch_id)
 );
 
@@ -153,10 +153,12 @@ create table public.personal_inventory
 create table public.personal_inventory_item
 (
     inventory_id uuid    not null default uuid_generate_v4(),
+    user_id      uuid    not null,
     batch_id     uuid    not null,
     barcode      varchar not null,
     nano_id      varchar not null,
 
+    constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     constraint fk_personal_inventory foreign key (batch_id) references public.personal_inventory (batch_id) on delete cascade,
     primary key (inventory_id)
 );
