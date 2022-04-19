@@ -13,137 +13,146 @@ create policy "Restricted Access"
 --------------------------------------------------------------------------------------
 
 -- COMPANY
-alter table public.company enable row level security;
+alter table public.company
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for public"
     on public.company
-    for insert with check ( true );
+    for insert with check (true);
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY INVENTORY
-alter table public.company_inventory enable row level security;
+alter table public.company_inventory
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_inventory
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for company editors"
     on public.company_inventory
     for insert with check (auth.uid() in (select get_company_editors
-                               from get_company_editors(company_id)));
+                                          from get_company_editors(company_id)));
 
 create policy "Enable delete for company editors"
     on public.company_inventory
     for delete using (auth.uid() in (select get_company_editors
-                               from get_company_editors(company_id)));
+                                     from get_company_editors(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY INVENTORY ITEM
-alter table public.company_inventory_item enable row level security;
+alter table public.company_inventory_item
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_inventory_item
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for company editors"
     on public.company_inventory_item
     for insert with check (auth.uid() in (select get_company_editors
-                               from get_company_editors(company_id)));
+                                          from get_company_editors(company_id)));
 
 create policy "Enable delete for company editors"
     on public.company_inventory_item
     for delete using (auth.uid() in (select get_company_editors
-                               from get_company_editors(company_id)));
+                                     from get_company_editors(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY INVITE
-alter table public.company_invite enable row level security;
+alter table public.company_invite
+    enable row level security;
 
 create policy "Enable select for company admins"
     on public.company_invite
     for select using (auth.uid() in (select get_company_admins
-                          from get_company_admins(company_id)));
+                                     from get_company_admins(company_id)));
 
 create policy "Enable insert for company admins"
     on public.company_invite
     for insert with check (auth.uid() in (select get_company_admins
-                               from get_company_admins(company_id)));
+                                          from get_company_admins(company_id)));
 
 create policy "Enable delete for company admins"
     on public.company_invite
     for delete using (auth.uid() in (select get_company_admins
-                               from get_company_admins(company_id)));
+                                     from get_company_admins(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY STAFF
-alter table public.company_staff enable row level security;
+alter table public.company_staff
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_staff
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for company admins"
     on public.company_staff
     for insert with check (auth.uid() in (select get_company_admins
-                               from get_company_admins(company_id)));
+                                          from get_company_admins(company_id)));
 
 create policy "Enable delete for company admins"
     on public.company_staff
     for delete using (auth.uid() in (select get_company_admins
-                               from get_company_admins(company_id)));
+                                     from get_company_admins(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY SUBSCRIPTIONS
-alter table public.company_subscription enable row level security;
+alter table public.company_subscription
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_subscription
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY USAGE
-alter table public.company_usage enable row level security;
+alter table public.company_usage
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_usage
     for select using (auth.uid() in (select get_company_staff
-                          from get_company_staff(company_id)));
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for company admins"
     on public.company_usage
     for insert with check (auth.uid() in (select get_company_editors
-                               from get_company_editors(company_id)));
+                                          from get_company_editors(company_id)));
 
 --------------------------------------------------------------------------------------
 
 -- COMPANY USER
-alter table public.company_user enable row level security;
+alter table public.company_user
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.company_user
-    for select using ( true );
+    for select using (true);
 
 -- TODO: ADD POLICY TO ONLY SELECT COMPANY_USER IN THE INVOKERS COMPANY
 
 --------------------------------------------------------------------------------------
 
 -- PERSONAL INVENTORY
-alter table public.personal_inventory enable row level security;
+alter table public.personal_inventory
+    enable row level security;
 
 create policy "Enable select for self"
     on public.personal_inventory
@@ -160,7 +169,8 @@ create policy "Enable delete for self"
 --------------------------------------------------------------------------------------
 
 -- PERSONAL SUBSCRIPTION
-alter table public.personal_subscription enable row level security;
+alter table public.personal_subscription
+    enable row level security;
 
 create policy "Enable select self"
     on public.personal_subscription
@@ -169,7 +179,8 @@ create policy "Enable select self"
 --------------------------------------------------------------------------------------
 
 -- PERSONAL USAGE
-alter table public.personal_usage enable row level security;
+alter table public.personal_usage
+    enable row level security;
 
 create policy "Enable select for self"
     on public.personal_usage
@@ -182,28 +193,31 @@ create policy "Enable insert for self"
 --------------------------------------------------------------------------------------
 
 -- PERSONAL USER
-alter table public.personal_user enable row level security;
+alter table public.personal_user
+    enable row level security;
 
 create policy "Enable select for company staff"
     on public.personal_user
-    for select using ( auth.uid() == id );
+    for select using (auth.uid() == id);
 
 --------------------------------------------------------------------------------------
 
 -- PERSONAL BARCODE
-alter table public.product_barcode enable row level security;
+alter table public.product_barcode
+    enable row level security;
 
 create policy "Enable select for authenticated users"
     on public.product_barcode
-    for select using ( auth.role() == 'authenticated' );
+    for select using (auth.role() == 'authenticated');
 
 create policy "Enable insert for authenticated users"
     on public.product_barcode
-    for insert with check ( auth.role() == 'authenticated' );
+    for insert with check (auth.role() == 'authenticated');
 
 --------------------------------------------------------------------------------------
 
 -- PRODUCT SOURCE
-alter table public.product_sku enable row level security;
+alter table public.product_sku
+    enable row level security;
 
 --------------------------------------------------------------------------------------

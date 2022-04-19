@@ -84,7 +84,7 @@ create table public.company
 create table public.company_invite
 (
     id           uuid    not null default uuid_generate_v4(),
-    company_id  uuid    not null,
+    company_id   uuid    not null,
     invite_token varchar not null,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
@@ -94,10 +94,10 @@ create table public.company_invite
 -- CREATE COMPANY STAFF TABLE
 create table public.company_staff
 (
-    id         uuid not null default uuid_generate_v4(),
-    user_id    uuid not null unique,
+    id         uuid    not null default uuid_generate_v4(),
+    user_id    uuid    not null unique,
     role       varchar not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
-    company_id uuid not null,
+    company_id uuid    not null,
 
     constraint fk_company_user foreign key (user_id) references public.company_user (id),
     constraint fk_company foreign key (company_id) references public.company (company_id),
@@ -120,7 +120,8 @@ create table public.company_inventory
 
 -- TODO: Move to different file
 -- USED FOR WEBHOOKS
-alter table "company_inventory" replica identity full;
+alter table "company_inventory"
+    replica identity full;
 
 -- CREATE COMPANY INVENTORY ITEM TABLE
 create table public.company_inventory_item
@@ -156,7 +157,7 @@ create table public.personal_inventory_item
     barcode      varchar not null,
     nano_id      varchar not null,
 
-    constraint fk_personal_inventory foreign key (batch_id) references public.personal_inventory (batch_id) on delete cascade ,
+    constraint fk_personal_inventory foreign key (batch_id) references public.personal_inventory (batch_id) on delete cascade,
     primary key (inventory_id)
 );
 
