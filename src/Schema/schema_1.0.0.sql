@@ -118,11 +118,6 @@ create table public.company_inventory
     primary key (batch_id)
 );
 
--- TODO: Move to different file
--- USED FOR WEBHOOKS
-alter table "company_inventory"
-    replica identity full;
-
 -- CREATE COMPANY INVENTORY ITEM TABLE
 create table public.company_inventory_item
 (
@@ -192,9 +187,8 @@ create table public.company_subscription
 (
     id                   uuid not null default uuid_generate_v4(),
     company_id           uuid not null,
-    free_limit           int2 not null default 20,
-    subscription_limit   int2 not null default 0,
-    subscription_status  varchar,
+    free_trial_end       timestamptz not null default now() + interval '1 month',
+    is_active  boolean not null default true,
     current_period_start int2,
     current_period_end   int2,
 
@@ -207,9 +201,8 @@ create table public.personal_subscription
 (
     id                   uuid not null default uuid_generate_v4(),
     user_id              uuid not null,
-    free_limit           int2 not null default 50,
-    subscription_limit   int2 not null default 0,
-    subscription_status  varchar,
+    free_trial_end       timestamptz not null default now() + interval '1 month',
+    is_active  boolean not null default true,
     current_period_start int2,
     current_period_end   int2,
 
