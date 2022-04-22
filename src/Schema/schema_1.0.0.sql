@@ -53,7 +53,7 @@ create table public.product_sku
     gender       varchar     not null check (gender = 'men' or gender = 'women' or gender = 'kids'),
     brand        varchar     not null,
     nickname     varchar     not null default '',
-    release_date int2,
+    release_date int4,
     image_url    varchar     not null,
     created_at   timestamptz not null default now(),
     verified     boolean     not null default false,
@@ -189,8 +189,8 @@ create table public.company_subscription
     company_id           uuid not null,
     free_trial_end       timestamptz not null default now() + interval '1 month',
     is_active  boolean not null default true,
-    current_period_start int2,
-    current_period_end   int2,
+    current_period_start int4,
+    current_period_end   int4,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (id)
@@ -203,8 +203,8 @@ create table public.personal_subscription
     user_id              uuid not null,
     free_trial_end       timestamptz not null default now() + interval '1 month',
     is_active  boolean not null default true,
-    current_period_start int2,
-    current_period_end   int2,
+    current_period_start int4,
+    current_period_end   int4,
 
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
