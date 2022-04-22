@@ -185,10 +185,10 @@ create table public.personal_usage
 -- CREATE COMPANY SUBSCRIPTION TABLE
 create table public.company_subscription
 (
-    id                   uuid not null default uuid_generate_v4(),
-    company_id           uuid not null,
-    free_trial_end       timestamptz not null default now() + interval '1 month',
-    is_active  boolean not null default true,
+    id                   uuid    not null default uuid_generate_v4(),
+    company_id           uuid    not null,
+    free_trial_end       int4    not null,
+    is_active            boolean not null default true,
     current_period_start int4,
     current_period_end   int4,
 
@@ -199,10 +199,10 @@ create table public.company_subscription
 -- CREATE PERSONAL SUBSCRIPTION TABLE
 create table public.personal_subscription
 (
-    id                   uuid not null default uuid_generate_v4(),
-    user_id              uuid not null,
-    free_trial_end       timestamptz not null default now() + interval '1 month',
-    is_active  boolean not null default true,
+    id                   uuid    not null default uuid_generate_v4(),
+    user_id              uuid    not null,
+    free_trial_end       int4    not null,
+    is_active            boolean not null default true,
     current_period_start int4,
     current_period_end   int4,
 
