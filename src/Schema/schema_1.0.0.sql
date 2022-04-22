@@ -189,6 +189,8 @@ create table public.company_subscription
     company_id           uuid    not null,
     free_trial_end       int4    not null,
     is_active            boolean not null default true,
+    is_unlimited         boolean not null default false,
+    monthly_limit        int4 not null default 0,
     current_period_start int4,
     current_period_end   int4,
 
@@ -203,6 +205,8 @@ create table public.personal_subscription
     user_id              uuid    not null,
     free_trial_end       int4    not null,
     is_active            boolean not null default true,
+    is_unlimited         boolean not null default false,
+    monthly_limit        int4 not null default 0,
     current_period_start int4,
     current_period_end   int4,
 
