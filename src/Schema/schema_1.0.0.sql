@@ -53,7 +53,7 @@ create table public.product_sku
     gender       varchar     not null check (gender = 'men' or gender = 'women' or gender = 'kids'),
     brand        varchar     not null,
     nickname     varchar     not null default '',
-    release_date timestamptz,
+    release_date int2,
     image_url    varchar     not null,
     created_at   timestamptz not null default now(),
     verified     boolean     not null default false,
