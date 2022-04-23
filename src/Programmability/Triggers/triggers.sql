@@ -12,8 +12,8 @@ begin
 
         return new;
     else
-        insert into public.personal_user (id, phone)
-        values (new.id, new.phone);
+        insert into public.personal_user (id, phone, stripe_id)
+        values (new.id, new.phone, '');
 
         insert into public.personal_subscription (user_id, free_trial_end)
         values (new.id, now() + interval '1 month');
