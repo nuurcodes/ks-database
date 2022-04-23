@@ -15,8 +15,9 @@ create table public.company_user
 -- CREATE PERSONAL USER TABLE
 create table public.personal_user
 (
-    id    uuid references auth.users not null,
-    phone varchar                    not null,
+    id        uuid references auth.users not null,
+    phone     varchar                    not null,
+    stripe_id varchar                    not null,
     primary key (id)
 );
 
@@ -75,8 +76,8 @@ create table public.company
     address_city        varchar     not null,
     address_country     varchar     not null,
     created_at          timestamptz not null default now(),
-    stripe_id           varchar,
-    svix_app_id         varchar,
+    stripe_id           varchar     not null,
+    svix_app_id         varchar     not null,
     primary key (company_id)
 );
 
@@ -190,7 +191,7 @@ create table public.company_subscription
     free_trial_end       int4    not null,
     is_active            boolean not null default true,
     is_unlimited         boolean not null default false,
-    monthly_limit        int4 not null default 0,
+    monthly_limit        int4    not null default 0,
     current_period_start int4,
     current_period_end   int4,
 
@@ -206,7 +207,7 @@ create table public.personal_subscription
     free_trial_end       int4    not null,
     is_active            boolean not null default true,
     is_unlimited         boolean not null default false,
-    monthly_limit        int4 not null default 0,
+    monthly_limit        int4    not null default 0,
     current_period_start int4,
     current_period_end   int4,
 
