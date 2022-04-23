@@ -58,6 +58,7 @@ $$
 begin
     delete from auth.users
     where id = old.user_id;
+    return new;
 end;
 $$;
 
