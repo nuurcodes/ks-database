@@ -68,7 +68,6 @@ create table public.product_sku
 create table public.company
 (
     company_id          uuid        not null default uuid_generate_v4(),
-    company_email       varchar     not null,
     company_name        varchar     not null,
     address_line1       varchar     not null,
     address_line2       varchar,
@@ -84,9 +83,12 @@ create table public.company
 -- CREATE COMPANY INVITE TABLE
 create table public.company_invite
 (
-    id           uuid    not null default uuid_generate_v4(),
-    company_id   uuid    not null,
-    invite_token varchar not null,
+    id           uuid        not null default uuid_generate_v4(),
+    email        varchar     not null,
+    role         varchar     not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
+    company_id   uuid        not null,
+    invite_token varchar     not null,
+    created_at   timestamptz not null default now(),
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (id)
