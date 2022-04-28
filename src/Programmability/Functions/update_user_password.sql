@@ -1,5 +1,5 @@
 create
-    or replace function update_user_password(current_plain_password varchar, new_plain_password varchar)
+    or replace function handle_update_user_password(current_plain_password varchar, new_plain_password varchar)
     returns json
     language plpgsql
     security definer
