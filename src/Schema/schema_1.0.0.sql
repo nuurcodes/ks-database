@@ -102,7 +102,7 @@ create table public.company_staff
     role       varchar not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
     company_id uuid    not null,
 
-    constraint fk_auth_user foreign key (user_id) references auth.users (id),
+    constraint fk_company_user foreign key (user_id) references public.company_staff (id),
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (id)
 );
