@@ -73,10 +73,10 @@ create policy "Enable delete for company editors"
 alter table public.company_invite
     enable row level security;
 
-create policy "Enable select for company admins"
+create policy "Enable select for company staff"
     on public.company_invite
-    for select using (auth.uid() in (select get_company_admins
-                                     from get_company_admins(company_id)));
+    for select using (auth.uid() in (select get_company_staff
+                                     from get_company_staff(company_id)));
 
 create policy "Enable insert for company admins"
     on public.company_invite
