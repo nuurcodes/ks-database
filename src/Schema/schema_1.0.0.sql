@@ -83,7 +83,6 @@ create table public.company
 -- CREATE COMPANY INVITE TABLE
 create table public.company_invite
 (
-    id           uuid        not null default uuid_generate_v4(),
     email        varchar     not null,
     role         varchar     not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
     company_id   uuid        not null,
@@ -91,7 +90,7 @@ create table public.company_invite
     created_at   timestamptz not null default now(),
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
-    primary key (id)
+    primary key (email)
 );
 
 -- CREATE COMPANY STAFF TABLE
