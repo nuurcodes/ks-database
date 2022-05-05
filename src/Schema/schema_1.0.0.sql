@@ -91,6 +91,7 @@ create table public.company_invite
     created_at   timestamptz not null default now(),
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
+    unique (email, company_id),
     primary key (id)
 );
 
