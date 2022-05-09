@@ -15,3 +15,5 @@ drop table public.company_usage cascade;
 drop table public.personal_usage cascade;
 drop table public.company_subscription cascade;
 drop table public.personal_subscription cascade;
+drop table public.stripe_price cascade;
+drop table public.stripe_product cascade;

@@ -254,3 +254,23 @@ alter table public.product_source
     enable row level security;
 
 --------------------------------------------------------------------------------------
+
+-- STRIPE_PRODUCT
+alter table public.stripe_product
+    enable row level security;
+
+create policy "Enable select for public"
+    on public.stripe_product
+    for select using (true);
+
+--------------------------------------------------------------------------------------
+
+-- STRIPE_PRICE
+alter table public.stripe_price
+    enable row level security;
+
+create policy "Enable select for public"
+    on public.stripe_price
+    for select using (true);
+
+--------------------------------------------------------------------------------------

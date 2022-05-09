@@ -217,3 +217,31 @@ create table public.personal_subscription
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
 );
+
+-- CREATE STRIPE PRODUCT TABLE
+create table public.stripe_product
+(
+    id          varchar not null,
+    active      bool    not null,
+    name        varchar not null,
+    description varchar,
+    image       varchar,
+    metadata    jsonb   not null default '{}'::jsonb,
+    primary key (id)
+);
+
+-- CREATE STRIPE PRODUCT TABLE
+create table public.stripe_price
+(
+    id         varchar not null,
+    active     bool    not null,
+    currency   varchar not null,
+    product_id varchar not null,
+    type       varchar not null check (type = 'one_time' or type = 'recurring'),
+    tiers      jsonb   not null default '{}'::jsonb,
+    metadata   jsonb   not null default '{}'::jsonb,
+
+    constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
+    primary key (id)
+);
+
