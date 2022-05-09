@@ -237,11 +237,10 @@ create table public.stripe_price
     active     bool    not null,
     currency   varchar not null,
     product_id varchar not null,
-    type       varchar not null check (type = 'one_time' or type = 'recurring'),
+    type       pricing_type not null default 'recurring',
     tiers      jsonb   not null default '{}'::jsonb,
     metadata   jsonb   not null default '{}'::jsonb,
 
     constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
     primary key (id)
 );
-
