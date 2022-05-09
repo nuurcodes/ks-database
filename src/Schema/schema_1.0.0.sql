@@ -189,14 +189,20 @@ create table public.personal_usage
 -- CREATE COMPANY SUBSCRIPTION TABLE
 create table public.company_subscription
 (
-    id                   uuid    not null default uuid_generate_v4(),
-    company_id           uuid    not null,
-    free_trial_end       int4    not null,
-    is_active            boolean not null default true,
-    is_unlimited         boolean not null default false,
-    monthly_limit        int4    not null default 0,
-    current_period_start int4,
-    current_period_end   int4,
+    id                   varchar             not null,
+    company_id           uuid                not null,
+    status               subscription_status not null,
+    metadata             jsonb               not null default '{}'::jsonb,
+    price_id             varchar             not null,
+    cancel_at_period     bool,
+    created              int4                not null,
+    current_period_start int4                not null,
+    current_period_end   int4                not null,
+    ended_at             int4,
+    cancel_at            int4,
+    canceled_at          int4,
+    trial_start          int4,
+    trial_end            int4,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (id)
@@ -205,14 +211,20 @@ create table public.company_subscription
 -- CREATE PERSONAL SUBSCRIPTION TABLE
 create table public.personal_subscription
 (
-    id                   uuid    not null default uuid_generate_v4(),
-    user_id              uuid    not null,
-    free_trial_end       int4    not null,
-    is_active            boolean not null default true,
-    is_unlimited         boolean not null default false,
-    monthly_limit        int4    not null default 0,
-    current_period_start int4,
-    current_period_end   int4,
+    id                   varchar             not null,
+    user_id              uuid                not null,
+    status               subscription_status not null,
+    metadata             jsonb               not null default '{}'::jsonb,
+    price_id             varchar             not null,
+    cancel_at_period     bool,
+    created              int4                not null,
+    current_period_start int4                not null,
+    current_period_end   int4                not null,
+    ended_at             int4,
+    cancel_at            int4,
+    canceled_at          int4,
+    trial_start          int4,
+    trial_end            int4,
 
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
@@ -233,13 +245,13 @@ create table public.stripe_product
 -- CREATE STRIPE PRODUCT TABLE
 create table public.stripe_price
 (
-    id         varchar not null,
-    active     bool    not null,
-    currency   varchar not null,
-    product_id varchar not null,
+    id         varchar      not null,
+    active     bool         not null,
+    currency   varchar      not null,
+    product_id varchar      not null,
     type       pricing_type not null default 'recurring',
-    tiers      jsonb   not null default '{}'::jsonb,
-    metadata   jsonb   not null default '{}'::jsonb,
+    tiers      jsonb        not null default '{}'::jsonb,
+    metadata   jsonb        not null default '{}'::jsonb,
 
     constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
     primary key (id)
