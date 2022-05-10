@@ -144,7 +144,7 @@ alter table public.company_user
 
 create policy "Enable select for authenticated users"
     on public.company_user
-    for select using ( auth.role() = 'authenticated' );
+    for select using (auth.role() = 'authenticated');
 
 -- TODO: UPDATE POLICY TO ONLY SELECT COMPANY_USER IN THE INVOKERS COMPANY
 
@@ -274,3 +274,22 @@ create policy "Enable select for public"
     for select using (true);
 
 --------------------------------------------------------------------------------------
+
+-- COMPANY_INVOICE
+alter table public.company_invoice
+    enable row level security;
+
+create policy "Enable select for company admins"
+    on public.company_invoice
+    for select using (auth.uid() in (select get_company_admins
+                                     from get_company_admins(company_id)));
+
+--------------------------------------------------------------------------------------
+
+-- PERSONAL_INVOICE
+alter table public.personal_invoice
+    enable row level security;
+
+create policy "Enable select for self"
+    on public.personal_invoice
+    for select using (auth.uid() = user_id);

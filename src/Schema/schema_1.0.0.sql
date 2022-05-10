@@ -83,11 +83,11 @@ create table public.company
 -- CREATE COMPANY INVITE TABLE
 create table public.company_invite
 (
-    id           uuid        not null default uuid_generate_v4(),
-    email        varchar     not null,
-    role         varchar     not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
-    company_id   uuid        not null,
-    created_at   timestamptz not null default now(),
+    id         uuid        not null default uuid_generate_v4(),
+    email      varchar     not null,
+    role       varchar     not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
+    company_id uuid        not null,
+    created_at timestamptz not null default now(),
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     unique (email, company_id),
@@ -204,6 +204,7 @@ create table public.company_subscription
     trial_end            int4,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
+    constraint fk_stripe_price foreign key (price_id) references public.stripe_price (id),
     primary key (id)
 );
 
@@ -253,5 +254,35 @@ create table public.stripe_price
     metadata   jsonb        not null default '{}'::jsonb,
 
     constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
+    primary key (id)
+);
+
+-- CREATE COMPANY INVOICE
+create table public.company_invoice
+(
+    id          varchar not null,
+    stripe_id   varchar not null,
+    invoice_pdf varchar not null,
+    currency    varchar not null,
+    company_id  uuid not null,
+    amount_paid int4    not null,
+    paid_at     int4    not null,
+
+    constraint fk_company foreign key (company_id) references public.company (company_id),
+    primary key (id)
+);
+
+-- CREATE PERSONA: INVOICE
+create table public.personal_invoice
+(
+    id          varchar not null,
+    stripe_id   varchar not null,
+    invoice_pdf varchar not null,
+    currency    varchar not null,
+    user_id     uuid    not null,
+    amount_paid int4    not null,
+    paid_at     int4    not null,
+
+    constraint fk_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
 );
