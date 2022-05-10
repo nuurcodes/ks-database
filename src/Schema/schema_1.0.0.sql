@@ -87,7 +87,6 @@ create table public.company_invite
     email        varchar     not null,
     role         varchar     not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
     company_id   uuid        not null,
-    invite_token varchar     not null,
     created_at   timestamptz not null default now(),
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
