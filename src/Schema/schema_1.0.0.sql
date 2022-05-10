@@ -264,7 +264,7 @@ create table public.company_invoice
     stripe_id   varchar not null,
     invoice_pdf varchar not null,
     currency    varchar not null,
-    company_id  uuid not null,
+    company_id  uuid    not null,
     amount_paid int4    not null,
     paid_at     int4    not null,
 
