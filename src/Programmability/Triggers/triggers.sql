@@ -83,7 +83,7 @@ begin
                jsonb_build_object('From', 'contact@kickscan.com', 'To', new.email, 'TemplateId', '27355732',
                                   'TemplateModel',
                                   jsonb_build_object('company_name', _company_name, 'action_url',
-                                                     concat('https://business.kickscan.com/invite?token=', new.id),
+                                                     concat('https://business.kickscan.com/invite?id=', new.id),
                                                      'support_email', 'contact@kickscan.com'))
         )::http_request);
 
