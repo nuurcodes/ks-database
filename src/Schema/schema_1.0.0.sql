@@ -189,7 +189,7 @@ create table public.personal_usage
 create table public.company_subscription
 (
     id                   varchar             not null,
-    stripe_id            varchar             not null,
+    company_id           uuid                not null,
     status               subscription_status not null,
     metadata             jsonb               not null default '{}'::jsonb,
     price_id             varchar             not null,
@@ -203,7 +203,7 @@ create table public.company_subscription
     trial_start          int4,
     trial_end            int4,
 
-    constraint fk_company foreign key (stripe_id) references public.company (stripe_id),
+    constraint fk_company foreign key (company_id) references public.company (company_id),
     constraint fk_stripe_price foreign key (price_id) references public.stripe_price (id),
     primary key (id)
 );
@@ -212,7 +212,7 @@ create table public.company_subscription
 create table public.personal_subscription
 (
     id                   varchar             not null,
-    stripe_id            varchar             not null,
+    user_id              uuid                not null,
     status               subscription_status not null,
     metadata             jsonb               not null default '{}'::jsonb,
     price_id             varchar             not null,
@@ -226,7 +226,7 @@ create table public.personal_subscription
     trial_start          int4,
     trial_end            int4,
 
-    constraint fk_personal_user foreign key (stripe_id) references public.personal_user (stripe_id),
+    constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
 );
 
