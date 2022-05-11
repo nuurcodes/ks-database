@@ -237,7 +237,6 @@ create table public.stripe_product
     active      bool    not null,
     name        varchar not null,
     description varchar,
-    image       varchar,
     metadata    jsonb   not null default '{}'::jsonb,
     primary key (id)
 );
