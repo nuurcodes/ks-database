@@ -245,6 +245,7 @@ create table public.stripe_product
 create table public.stripe_price
 (
     id         varchar      not null,
+    nickname   varchar      not null,
     active     bool         not null,
     currency   varchar      not null,
     product_id varchar      not null,
