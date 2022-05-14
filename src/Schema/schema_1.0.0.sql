@@ -42,6 +42,7 @@ create table public.product_barcode
     source_id   uuid,
 
     constraint fk_product_source foreign key (source_id) references public.product_source (source_id),
+    constraint fk_product_sku foreign key (sku) references public.product_sku (sku),
     primary key (barcode)
 );
 
