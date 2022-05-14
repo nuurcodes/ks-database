@@ -131,6 +131,7 @@ create table public.company_inventory_item
     nano_id      varchar not null,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
+    constraint fk_product_barcode foreign key (barcode) references public.product_barcode (barcode),
     constraint fk_company_inventory foreign key (batch_id) references public.company_inventory (batch_id) on delete cascade,
     primary key (inventory_id)
 );
@@ -157,6 +158,7 @@ create table public.personal_inventory_item
     nano_id      varchar not null,
 
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
+    constraint fk_product_barcode foreign key (barcode) references public.product_barcode (barcode),
     constraint fk_personal_inventory foreign key (batch_id) references public.personal_inventory (batch_id) on delete cascade,
     primary key (inventory_id)
 );
