@@ -68,23 +68,15 @@ create or replace function public.handle_create_company_invite()
 as
 $$
 
-declare
-    _company_name varchar;
-
 begin
-    select company_name from company where company.company_id = new.company_id into _company_name;
-
     perform
     from http((
                'POST',
-               'https://api.postmarkapp.com/email/withTemplate',
-               ARRAY [http_header('X-Postmark-Server-Token', '9af49833-2904-41a4-800f-ca843d43e844')],
+               'https://kickscan.vercel.app/api/supabase/invite_created',
+               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
                'application/json',
-               jsonb_build_object('From', 'contact@kickscan.com', 'To', new.email, 'TemplateId', '27355732',
-                                  'TemplateModel',
-                                  jsonb_build_object('company_name', _company_name, 'action_url',
-                                                     concat('https://business.kickscan.com/invite?id=', new.id),
-                                                     'support_email', 'contact@kickscan.com'))
+               jsonb_build_object('record',
+                                  jsonb_build_object('id', new.id, 'company_id', new.company_id, 'email', new.email))
         )::http_request);
 
     return new;
@@ -99,56 +91,16 @@ create or replace function public.handle_create_inventory_item()
 as
 $$
 
-declare
-    _uuid         uuid;
-    _size         varchar;
-    _size_region  varchar;
-    _svix_app_id  varchar;
-    _sku          varchar;
-    _name         varchar;
-    _style        varchar;
-    _gender       varchar;
-    _brand        varchar;
-    _nickname     varchar;
-    _release_date int4;
-    _image_url    varchar;
-
 begin
-    select uuid_generate_v4() into _uuid;
-    select svix_app_id from public.company where company.company_id = new.company_id into _svix_app_id;
-
-    select pb.size,
-           pb.size_region,
-           ps.sku,
-           ps.name,
-           ps.style,
-           ps.gender,
-           ps.brand,
-           ps.nickname,
-           ps.release_date,
-           ps.image_url
-    into _size, _size_region, _sku, _name, _style, _gender, _brand, _nickname, _release_date, _image_url
-    from public.product_barcode as pb
-             inner join public.product_sku as ps on pb.sku = ps.sku
-    where barcode = new.barcode;
-
     perform
     from http((
                'POST',
-               concat('https://api.svix.com/api/v1/app/', _svix_app_id, '/msg/'),
-               ARRAY [
-                   http_header('Authorization', 'Bearer testsk_qsN2E1o7CDSTuB6jx9INIJPc3etc5TBT'),
-                   http_header('accept', 'application/json'),
-                   http_header('Content-Type', 'application/json'),
-                   http_header('idempotency-key', cast(_uuid as varchar))
-                   ],
+               'https://kickscan.vercel.app/api/supabase/inventory_added',
+               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
                'application/json',
-               jsonb_build_object('eventType', 'item.added', 'payload',
-                                  jsonb_build_object('id', new.nano_id, 'size', _size, 'size_region', _size_region,
-                                                     'sku', _sku,
-                                                     'image_url', _image_url, 'name', _name, 'style', _style, 'gender',
-                                                     _gender, 'brand',
-                                                     _brand, 'nickname', _nickname, 'release_date', _release_date))
+               jsonb_build_object('record',
+                                  jsonb_build_object('nano_id', new.nano_id, 'company_id', new.company_id, 'barcode',
+                                                     new.barcode))
         )::http_request);
 
     return new;
@@ -163,62 +115,63 @@ create or replace function public.handle_delete_inventory_item()
 as
 $$
 
-declare
-    _uuid         uuid;
-    _size         varchar;
-    _size_region  varchar;
-    _svix_app_id  varchar;
-    _sku          varchar;
-    _name         varchar;
-    _style        varchar;
-    _gender       varchar;
-    _brand        varchar;
-    _nickname     varchar;
-    _release_date int4;
-    _image_url    varchar;
-
 begin
-    select uuid_generate_v4() into _uuid;
-    select svix_app_id from public.company where company.company_id = old.company_id into _svix_app_id;
-
-    select pb.size,
-           pb.size_region,
-           ps.sku,
-           ps.name,
-           ps.style,
-           ps.gender,
-           ps.brand,
-           ps.nickname,
-           ps.release_date,
-           ps.image_url
-    into _size, _size_region, _sku, _name, _style, _gender, _brand, _nickname, _release_date, _image_url
-    from public.product_barcode as pb
-             inner join public.product_sku as ps on pb.sku = ps.sku
-    where barcode = old.barcode;
-
     perform
     from http((
                'POST',
-               concat('https://api.svix.com/api/v1/app/', _svix_app_id, '/msg/'),
-               ARRAY [
-                   http_header('Authorization', 'Bearer testsk_qsN2E1o7CDSTuB6jx9INIJPc3etc5TBT'),
-                   http_header('accept', 'application/json'),
-                   http_header('Content-Type', 'application/json'),
-                   http_header('idempotency-key', cast(_uuid as varchar))
-                   ],
+               'https://kickscan.vercel.app/api/supabase/inventory_deleted',
+               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
                'application/json',
-               jsonb_build_object('eventType', 'item.deleted', 'payload',
-                                  jsonb_build_object('id', old.nano_id, 'size', _size, 'size_region',
-                                                     _size_region,
-                                                     'sku', _sku,
-                                                     'image_url', _image_url, 'name', _name, 'style',
-                                                     _style, 'gender',
-                                                     _gender, 'brand',
-                                                     _brand, 'nickname', _nickname, 'release_date',
-                                                     _release_date))
+               jsonb_build_object('record',
+                                  jsonb_build_object('nano_id', new.nano_id, 'company_id', new.company_id, 'barcode',
+                                                     new.barcode))
         )::http_request);
 
-    return old;
+    return new;
+end;
+$$;
+
+-- ON_HANDLE_CREATE_COMPANY_USAGE
+create or replace function public.handle_create_company_usage()
+    returns trigger
+    language plpgsql
+    security definer set search_path = extensions, public
+as
+$$
+
+begin
+    perform
+    from http((
+               'POST',
+               'https://kickscan.vercel.app/api/supabase/usage_company_created',
+               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               'application/json',
+               jsonb_build_object('record',
+                                  jsonb_build_object('company_id', new.company_id))
+        )::http_request);
+    return new;
+end;
+$$;
+
+-- ON_HANDLE_CREATE_PERSONAL_USAGE
+create or replace function public.handle_create_personal_usage()
+    returns trigger
+    language plpgsql
+    security definer set search_path = extensions, public
+as
+$$
+
+begin
+    perform
+    from http((
+               'POST',
+               'https://kickscan.vercel.app/api/supabase/usage_personal_created',
+               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               'application/json',
+               jsonb_build_object('record',
+                                  jsonb_build_object('user_id', new.user_id))
+        )::http_request);
+    return new;
 end;
 $$;
 
@@ -269,3 +222,20 @@ create trigger on_company_inventory_deleted
     on public.company_inventory_item
     for each row
 execute procedure public.handle_delete_inventory_item();
+
+-- TRIGGER
+drop trigger if exists on_company_usage_created on public.company_usage;
+create trigger on_company_usage_created
+    after insert
+    on public.company_usage
+    for each row
+execute procedure public.handle_create_company_usage();
+
+-- TRIGGER
+drop trigger if exists on_personal_usage_created on public.personal_usage;
+create trigger on_personal_usage_created
+    after insert
+    on public.personal_usage
+    for each row
+execute procedure public.handle_create_personal_usage();
+
