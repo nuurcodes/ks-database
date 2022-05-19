@@ -122,3 +122,5 @@ create trigger on_company_invite_created
     on public.company_invite
     for each row
 execute procedure public.handle_create_company_invite();
+
+-- TODO: Add trigger for inventory added / deleted, company
