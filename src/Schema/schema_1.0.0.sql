@@ -205,6 +205,7 @@ create table public.company_subscription
     canceled_at          int4,
     trial_start          int4,
     trial_end            int4,
+    subscription_item_id varchar             not null,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     constraint fk_stripe_price foreign key (price_id) references public.stripe_price (id),
@@ -228,6 +229,7 @@ create table public.personal_subscription
     canceled_at          int4,
     trial_start          int4,
     trial_end            int4,
+    subscription_item_id varchar             not null,
 
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
