@@ -73,14 +73,14 @@ begin
     from http((
                'POST',
                'https://kickscan.vercel.app/api/supabase/invite_created',
-               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
                                   jsonb_build_object('id', new.id, 'company_id', new.company_id, 'email', new.email))
         )::http_request);
 
     return new;
-end;
+end ;
 $$;
 
 -- ON_HANDLE_CREATE_INVENTORY_ITEM
@@ -96,7 +96,7 @@ begin
     from http((
                'POST',
                'https://kickscan.vercel.app/api/supabase/inventory_added',
-               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
                                   jsonb_build_object('nano_id', new.nano_id, 'company_id', new.company_id, 'barcode',
@@ -104,7 +104,7 @@ begin
         )::http_request);
 
     return new;
-end;
+end ;
 $$;
 
 -- ON_HANDLE_DELETE_INVENTORY_ITEM
@@ -120,15 +120,15 @@ begin
     from http((
                'POST',
                'https://kickscan.vercel.app/api/supabase/inventory_deleted',
-               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
-               jsonb_build_object('record',
-                                  jsonb_build_object('nano_id', new.nano_id, 'company_id', new.company_id, 'barcode',
-                                                     new.barcode))
+               jsonb_build_object('old_record',
+                                  jsonb_build_object('nano_id', old.nano_id, 'company_id', old.company_id, 'barcode',
+                                                     old.barcode))
         )::http_request);
 
-    return new;
-end;
+    return old;
+end ;
 $$;
 
 -- ON_HANDLE_CREATE_COMPANY_USAGE
@@ -144,13 +144,13 @@ begin
     from http((
                'POST',
                'https://kickscan.vercel.app/api/supabase/usage_company_created',
-               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
                                   jsonb_build_object('company_id', new.company_id))
         )::http_request);
     return new;
-end;
+end ;
 $$;
 
 -- ON_HANDLE_CREATE_PERSONAL_USAGE
@@ -166,13 +166,13 @@ begin
     from http((
                'POST',
                'https://kickscan.vercel.app/api/supabase/usage_personal_created',
-               ARRAY [http_header('Authorization', 'Bearer nuurcodes:vB*0gbjUB7Kz4E7^&dxHM^Zr')],
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
                                   jsonb_build_object('user_id', new.user_id))
         )::http_request);
     return new;
-end;
+end ;
 $$;
 
 -- TRIGGER
