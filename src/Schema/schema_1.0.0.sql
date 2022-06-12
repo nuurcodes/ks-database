@@ -269,6 +269,7 @@ create table public.company_invoice
     stripe_id   varchar not null,
     invoice_pdf varchar not null,
     currency    varchar not null,
+    nickname    varchar not null,
     company_id  uuid    not null,
     amount_paid int4    not null,
     paid_at     int4    not null,
@@ -277,17 +278,28 @@ create table public.company_invoice
     primary key (id)
 );
 
--- CREATE PERSONA: INVOICE
+-- CREATE PERSONA:: INVOICE
 create table public.personal_invoice
 (
     id          varchar not null,
     stripe_id   varchar not null,
     invoice_pdf varchar not null,
     currency    varchar not null,
+    nickname    varchar not null,
     user_id     uuid    not null,
     amount_paid int4    not null,
     paid_at     int4    not null,
 
     constraint fk_user foreign key (user_id) references public.personal_user (id),
     primary key (id)
+);
+
+-- CREATE RESTOCK_SKUS
+create table public.restock_sku
+(
+    sku        varchar     not null,
+    created_at timestamptz not null default now(),
+    scraped    boolean     not null default false,
+
+    primary key (sku)
 );

@@ -293,3 +293,9 @@ alter table public.personal_invoice
 create policy "Enable select for self"
     on public.personal_invoice
     for select using (auth.uid() = user_id);
+
+--------------------------------------------------------------------------------------
+
+-- RESTOCK_SKU
+alter table public.restock_sku
+    enable row level security;
