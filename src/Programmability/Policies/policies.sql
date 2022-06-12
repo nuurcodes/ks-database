@@ -286,6 +286,22 @@ create policy "Enable select for company admins"
 
 --------------------------------------------------------------------------------------
 
+-- COMPANY_WEBHOOK
+alter table public.company_webhook
+    enable row level security;
+
+create policy "Enable select for company admins"
+    on public.company_webhook
+    for select using (auth.uid() in (select get_company_admins
+                                     from get_company_admins(company_id)));
+
+create policy "Enable insert for company admins"
+    on public.company_webhook
+    for insert with check (auth.uid() in (select get_company_admins
+                                          from get_company_admins(company_id)));
+
+--------------------------------------------------------------------------------------
+
 -- PERSONAL_INVOICE
 alter table public.personal_invoice
     enable row level security;

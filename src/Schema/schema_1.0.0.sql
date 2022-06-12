@@ -278,7 +278,7 @@ create table public.company_invoice
     primary key (id)
 );
 
--- CREATE PERSONA:: INVOICE
+-- CREATE PERSONAL INVOICE
 create table public.personal_invoice
 (
     id          varchar not null,
@@ -302,4 +302,16 @@ create table public.restock_sku
     scraped    boolean     not null default false,
 
     primary key (sku)
+);
+
+-- CREATE COMPANY_WEBHOOK
+create table public.company_webhook
+(
+    endpoint_id varchar not null,
+    company_id  uuid    not null,
+    endpoint    varchar not null,
+    disabled    boolean not null,
+
+    constraint fk_company foreign key (company_id) references public.company (company_id),
+    primary key (endpoint_id)
 );
