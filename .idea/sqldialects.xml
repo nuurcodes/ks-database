@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/Programmability/Enums/enums.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Programmability/Extensions/extensions.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/Programmability/Functions/get_company_admins.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/Programmability/Functions/get_company_editors.sql" dialect="PostgreSQL" />
@@ -10,5 +11,6 @@
     <file url="file://$PROJECT_DIR$/src/Programmability/Replication/Replication.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/Schema/drop.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/Schema/schema_1.0.0.sql" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

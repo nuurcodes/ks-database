@@ -30,22 +30,6 @@ create table public.product_source
     primary key (source_id)
 );
 
--- CREATE PRODUCT BARCODE TABLE
-create table public.product_barcode
-(
-    barcode     varchar     not null,
-    verified    bool        not null default false,
-    sku         varchar     not null,
-    size        varchar     not null,
-    size_region varchar     not null,
-    created_at  timestamptz not null default now(),
-    source_id   uuid,
-
-    constraint fk_product_source foreign key (source_id) references public.product_source (source_id),
-    constraint fk_product_sku foreign key (sku) references public.product_sku (sku),
-    primary key (barcode)
-);
-
 -- CREATE PRODUCT SKU TABLE
 create table public.product_sku
 (
@@ -63,6 +47,22 @@ create table public.product_sku
 
     constraint fk_product_source foreign key (source_id) references public.product_source (source_id),
     primary key (sku)
+);
+
+-- CREATE PRODUCT BARCODE TABLE
+create table public.product_barcode
+(
+    barcode     varchar     not null,
+    verified    bool        not null default false,
+    sku         varchar     not null,
+    size        varchar     not null,
+    size_region varchar     not null,
+    created_at  timestamptz not null default now(),
+    source_id   uuid,
+
+    constraint fk_product_source foreign key (source_id) references public.product_source (source_id),
+    constraint fk_product_sku foreign key (sku) references public.product_sku (sku),
+    primary key (barcode)
 );
 
 -- CREATE COMPANY TABLE
@@ -103,7 +103,7 @@ create table public.company_staff
     role       varchar not null check (role = 'super_admin' or role = 'admin' or role = 'write' or role = 'read'),
     company_id uuid    not null,
 
-    constraint fk_company_user foreign key (user_id) references public.company_staff (id),
+    constraint fk_company_user foreign key (user_id) references public.company_user (id),
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (id)
 );

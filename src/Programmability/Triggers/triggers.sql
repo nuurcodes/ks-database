@@ -72,7 +72,7 @@ begin
     perform
     from http((
                'POST',
-               'https://kickscan.vercel.app/api/supabase/invite_created',
+               'https://staging.business.kickscan.com/api/supabase/invite_created',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
@@ -95,7 +95,7 @@ begin
     perform
     from http((
                'POST',
-               'https://kickscan.vercel.app/api/supabase/inventory_added',
+               'https://staging.business.kickscan.com/api/supabase/inventory_added',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
@@ -119,7 +119,7 @@ begin
     perform
     from http((
                'POST',
-               'https://kickscan.vercel.app/api/supabase/inventory_deleted',
+               'https://staging.business.kickscan.com/api/supabase/inventory_deleted',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('old_record',
@@ -143,7 +143,7 @@ begin
     perform
     from http((
                'POST',
-               'https://kickscan.vercel.app/api/supabase/usage_company_created',
+               'https://staging.business.kickscan.com/api/supabase/usage_company_created',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
@@ -165,7 +165,7 @@ begin
     perform
     from http((
                'POST',
-               'https://kickscan.vercel.app/api/supabase/usage_personal_created',
+               'https://staging.business.kickscan.com/api/supabase/usage_personal_created',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
                jsonb_build_object('record',
