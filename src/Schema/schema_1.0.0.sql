@@ -36,7 +36,7 @@ create table public.product_sku
     sku          varchar     not null,
     name         varchar     not null,
     style        varchar     not null,
-    gender       varchar     not null check (gender = 'M' or gender = 'W' or gender = 'GS' or gender = 'PS' or gender = 'TD'),
+    gender       varchar     not null check (gender = 'M' or gender = 'W' or gender = 'GS' or gender = 'PS' or gender = 'TD' or gender = 'KID' or gender = 'INFANT'),
     brand        varchar     not null,
     nickname     varchar     not null default '',
     release_date int4,
