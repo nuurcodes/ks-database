@@ -36,7 +36,8 @@ create table public.product_sku
     sku          varchar     not null,
     name         varchar     not null,
     style        varchar     not null,
-    gender       varchar     not null check (gender = 'M' or gender = 'W' or gender = 'GS' or gender = 'PS' or gender = 'TD' or gender = 'KID' or gender = 'INFANT'),
+    gender       varchar     not null check (gender = 'M' or gender = 'W' or gender = 'GS' or gender = 'PS' or
+                                             gender = 'TD' or gender = 'KID' or gender = 'INFANT'),
     brand        varchar     not null,
     nickname     varchar     not null default '',
     release_date int4,
@@ -255,7 +256,7 @@ create table public.stripe_price
     currency   varchar      not null,
     product_id varchar      not null,
     type       pricing_type not null default 'recurring',
-    tiers      jsonb        not null default '{}'::jsonb,
+    amount     int4         not null,
     metadata   jsonb        not null default '{}'::jsonb,
 
     constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
