@@ -130,7 +130,7 @@ create policy "Enable select for company staff"
     on public.company_usage
     for select using (auth.uid() in (select get_company_staff
                                      from get_company_staff(company_id)));
-
+-- TODO: Insert happens on server only
 create policy "Enable insert for company admins"
     on public.company_usage
     for insert with check (auth.uid() in (select get_company_editors
