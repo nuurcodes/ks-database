@@ -175,6 +175,50 @@ begin
 end ;
 $$;
 
+-- ON_HANDLE_CREATE_PERSONAL_USAGE
+create or replace function public.handle_create_company_user_delete_request()
+    returns trigger
+    language plpgsql
+    security definer set search_path = extensions, public
+as
+$$
+
+begin
+    perform
+    from http((
+               'POST',
+               'https://staging.business.kickscan.com/api/supabase/company_user_delete_request',
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
+               'application/json',
+               jsonb_build_object('old_record',
+                                  jsonb_build_object('email', old.email))
+        )::http_request);
+    return new;
+end ;
+$$;
+
+-- ON_HANDLE_CREATE_PERSONAL_USAGE
+create or replace function public.handle_create_personal_user_delete_request()
+    returns trigger
+    language plpgsql
+    security definer set search_path = extensions, public
+as
+$$
+
+begin
+    perform
+    from http((
+               'POST',
+               'https://staging.business.kickscan.com/api/supabase/personal_user_delete_request',
+               ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
+               'application/json',
+               jsonb_build_object('old_record',
+                                  jsonb_build_object('email', old.email))
+        )::http_request);
+    return new;
+end ;
+$$;
+
 -- TRIGGER
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
@@ -238,3 +282,19 @@ create trigger on_personal_usage_created
     on public.personal_usage
     for each row
 execute procedure public.handle_create_personal_usage();
+
+-- TRIGGER
+drop trigger if exists on_company_user_delete_request on public.company_user_delete_request;
+create trigger on_company_user_delete_request
+    after insert
+    on public.company_user_delete_request
+    for each row
+execute procedure public.handle_create_company_user_delete_request();
+
+-- TRIGGER
+drop trigger if exists on_personal_user_delete_request on public.personal_user_delete_request;
+create trigger on_personal_user_delete_request
+    after insert
+    on public.personal_user_delete_request
+    for each row
+execute procedure public.handle_create_personal_user_delete_request();

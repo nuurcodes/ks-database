@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://db.ykfleamnqeblyqzqetkk.supabase.co:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="kickscan" uuid="eb2f1188-db5a-4be7-a4b8-b1a82b99894d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db.pqvocxhcdwfkagldjdjb.supabase.co:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

@@ -310,3 +310,31 @@ create policy "Enable select for self"
 -- RESTOCK_SKU
 alter table public.restock_sku
     enable row level security;
+
+--------------------------------------------------------------------------------------
+
+-- COMPANY_USER_DELETE_REQUEST
+alter table public.company_user_delete_request
+    enable row level security;
+
+create policy "Enable select for self"
+    on public.company_user_delete_request
+    for select using (auth.uid() = user_id);
+
+create policy "Enable insert for self"
+    on public.company_user_delete_request
+    for insert with check (auth.uid() = user_id);
+
+--------------------------------------------------------------------------------------
+
+-- COMPANY_USER_DELETE_REQUEST
+alter table public.personal_user_delete_request
+    enable row level security;
+
+create policy "Enable select for self"
+    on public.personal_user_delete_request
+    for select using (auth.uid() = user_id);
+
+create policy "Enable insert for self"
+    on public.personal_user_delete_request
+    for insert with check (auth.uid() = user_id);

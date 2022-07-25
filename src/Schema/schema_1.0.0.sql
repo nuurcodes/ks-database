@@ -189,6 +189,33 @@ create table public.personal_usage
     primary key (id)
 );
 
+-- CREATE STRIPE PRODUCT TABLE
+create table public.stripe_product
+(
+    id          varchar not null,
+    active      bool    not null,
+    name        varchar not null,
+    description varchar not null,
+    metadata    jsonb   not null default '{}'::jsonb,
+    primary key (id)
+);
+
+-- CREATE STRIPE PRODUCT TABLE
+create table public.stripe_price
+(
+    id         varchar      not null,
+    nickname   varchar      not null,
+    active     bool         not null,
+    currency   varchar      not null,
+    product_id varchar      not null,
+    type       pricing_type not null default 'recurring',
+    amount     int4         not null,
+    metadata   jsonb        not null default '{}'::jsonb,
+
+    constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
+    primary key (id)
+);
+
 -- CREATE COMPANY SUBSCRIPTION TABLE
 create table public.company_subscription
 (
@@ -233,33 +260,6 @@ create table public.personal_subscription
     subscription_item_id varchar             not null,
 
     constraint fk_personal_user foreign key (user_id) references public.personal_user (id),
-    primary key (id)
-);
-
--- CREATE STRIPE PRODUCT TABLE
-create table public.stripe_product
-(
-    id          varchar not null,
-    active      bool    not null,
-    name        varchar not null,
-    description varchar not null,
-    metadata    jsonb   not null default '{}'::jsonb,
-    primary key (id)
-);
-
--- CREATE STRIPE PRODUCT TABLE
-create table public.stripe_price
-(
-    id         varchar      not null,
-    nickname   varchar      not null,
-    active     bool         not null,
-    currency   varchar      not null,
-    product_id varchar      not null,
-    type       pricing_type not null default 'recurring',
-    amount     int4         not null,
-    metadata   jsonb        not null default '{}'::jsonb,
-
-    constraint fk_stripe_product foreign key (product_id) references public.stripe_product (id),
     primary key (id)
 );
 
@@ -315,4 +315,28 @@ create table public.company_webhook
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     primary key (endpoint_id)
+);
+
+-- CREATE COMPANY_USER_DELETE_REQUEST
+create table public.company_user_delete_request
+(
+    user_id    uuid        not null unique,
+    email      varchar     not null,
+    company_id uuid        not null,
+    created_at timestamptz not null default now(),
+    deleted_at timestamptz,
+
+    constraint fk_company foreign key (company_id) references public.company (company_id),
+    primary key (user_id)
+);
+
+-- CREATE PERSONAL_USER_DELETE_REQUEST
+create table public.personal_user_delete_request
+(
+    user_id    uuid        not null unique,
+    email      varchar     not null,
+    created_at timestamptz not null default now(),
+    deleted_at timestamptz,
+
+    primary key (user_id)
 );
