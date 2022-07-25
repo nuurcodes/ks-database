@@ -175,7 +175,7 @@ begin
 end ;
 $$;
 
--- ON_HANDLE_CREATE_PERSONAL_USAGE
+-- ON_HANDLE_DELETE_COMPANY_USER_DELETE_REQUEST
 create or replace function public.handle_create_company_user_delete_request()
     returns trigger
     language plpgsql
@@ -190,14 +190,14 @@ begin
                'https://staging.business.kickscan.com/api/supabase/company_user_delete_request',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
-               jsonb_build_object('old_record',
-                                  jsonb_build_object('email', old.email))
+               jsonb_build_object('record',
+                                  jsonb_build_object('email', new.email))
         )::http_request);
     return new;
 end ;
 $$;
 
--- ON_HANDLE_CREATE_PERSONAL_USAGE
+-- ON_HANDLE_CREATE_PERSONAL_USER_DELETE_REQUEST
 create or replace function public.handle_create_personal_user_delete_request()
     returns trigger
     language plpgsql
@@ -212,8 +212,8 @@ begin
                'https://staging.business.kickscan.com/api/supabase/personal_user_delete_request',
                ARRAY [http_header('Authorization', 'Basic bnV1cmNvZGVzOnZCKjBnYmpVQjdLejRFN14mZHhITV5acg==')],
                'application/json',
-               jsonb_build_object('old_record',
-                                  jsonb_build_object('email', old.email))
+               jsonb_build_object('record',
+                                  jsonb_build_object('email', new.email))
         )::http_request);
     return new;
 end ;
