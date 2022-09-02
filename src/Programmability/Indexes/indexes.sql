@@ -1,0 +1,1 @@
+create index if not exists product_barcode_trgm_idx on product_barcode using GIN (barcode gin_trgm_ops);
