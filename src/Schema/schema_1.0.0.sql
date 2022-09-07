@@ -126,11 +126,13 @@ create table public.company_inventory
 -- CREATE COMPANY INVENTORY ITEM TABLE
 create table public.company_inventory_item
 (
-    inventory_id uuid    not null default uuid_generate_v4(),
-    batch_id     uuid    not null,
-    company_id   uuid    not null,
-    barcode      varchar not null,
-    nano_id      varchar not null,
+    inventory_id        uuid    not null default uuid_generate_v4(),
+    batch_id            uuid    not null,
+    company_id          uuid    not null,
+    barcode             varchar not null,
+    nano_id             varchar not null,
+    sell_price          int4,
+    sell_price_currency varchar,
 
     constraint fk_company foreign key (company_id) references public.company (company_id),
     constraint fk_product_barcode foreign key (barcode) references public.product_barcode (barcode),
