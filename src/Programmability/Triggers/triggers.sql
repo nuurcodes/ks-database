@@ -100,7 +100,7 @@ begin
                'application/json',
                jsonb_build_object('record',
                                   jsonb_build_object('nano_id', new.nano_id, 'company_id', new.company_id, 'barcode',
-                                                     new.barcode))
+                                                     new.barcode, 'sell_price', new.sell_price, 'sell_price_currency', new.sell_price_currency))
         )::http_request);
 
     return new;
@@ -124,7 +124,7 @@ begin
                'application/json',
                jsonb_build_object('old_record',
                                   jsonb_build_object('nano_id', old.nano_id, 'company_id', old.company_id, 'barcode',
-                                                     old.barcode))
+                                                     old.barcode, 'sell_price', old.sell_price, 'sell_price_currency', old.sell_price_currency))
         )::http_request);
 
     return old;
